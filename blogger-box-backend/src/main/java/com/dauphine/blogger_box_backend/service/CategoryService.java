@@ -12,4 +12,5 @@ public interface CategoryService {
     Category updateName(UUID id, String name); // Mettre à jour le nom d'une catégorie
     boolean deleteById(UUID id); // Supprimer une catégorie par ID
 
+
 }

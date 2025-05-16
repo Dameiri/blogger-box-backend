@@ -68,4 +68,10 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return false; // Retourne false si la catégorie n'existe pas
     }
+
+
+
+
+
+
 }
