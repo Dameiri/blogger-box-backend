@@ -69,9 +69,15 @@ public class CategoryServiceImpl implements CategoryService {
         return false; // Retourne false si la catégorie n'existe pas
     }
 
+    @Override
+    public Category update(UUID id, String name) {
+        Category category = this.getById(id);
+        if (category != null) {
+            category.setName(name);
+        }
+        return category;
 
-
-
+    }
 
 
 }

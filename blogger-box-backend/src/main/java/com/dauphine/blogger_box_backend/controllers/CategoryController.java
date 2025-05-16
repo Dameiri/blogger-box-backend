@@ -1,75 +1,49 @@
 package com.dauphine.blogger_box_backend.controllers;
 
-import com.dauphine.blogger_box_backend.dto.CreationCategoryRequest;
 import com.dauphine.blogger_box_backend.model.Category;
-import com.dauphine.blogger_box_backend.model.ElementRequest;
-import com.dauphine.blogger_box_backend.model.Post;
+import com.dauphine.blogger_box_backend.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/categories")
 public class CategoryController {
+    @Autowired
+    private final CategoryService service;
 
-    @PostMapping("/elements")
-    public String create(@RequestBody ElementRequest body) {
-        // TODO later, implement persistence layer
-        // INSERT INTO ... (title, description) VALUES (${title}, ${description});
-        return "Create new element with title '%s' and description '%s'"
-                .formatted(body.getTitle(), body.getDescription());
-    }
-    @PutMapping("/elements/{id}")/*pour mettre à jour*/
-    public String update(@PathVariable Integer id, @RequestBody ElementRequest body) {
-        // TODO later, implement persistence layer
-        // UPDATE ... SET title = ${title}, description = ${description} WHERE id = ${id};
-        return "Update element '%s' with title '%s' and description '%s'"
-                .formatted(id, body.getTitle(), body.getDescription());
-    }
-    @PatchMapping("/elements/{id}/description")
-    public String patch(@PathVariable Integer id, @RequestBody String description) {
-        // TODO later, implement persistence layer
-        // UPDATE ... SET description = ${description} WHERE id = ${id};
-        return "Patch element '%s' with description '%s'".formatted(id, description);
-    }
-    @DeleteMapping("/elements/{id}")
-    public String delete(@PathVariable Integer id) {
-        //dELETE ... WHERE id = ${id}
-        return "Delete element '%s'".formatted(id);
+    public CategoryController(CategoryService service) {
+        this.service = service;
     }
 
-    private final List<Category> temporaryCategories;
 
-    public CategoryController() {
-        this.temporaryCategories = new ArrayList<>();
-        temporaryCategories.add(new Category(UUID.randomUUID(), "my first category"));
-        temporaryCategories.add(new Category(UUID.randomUUID(), "my second category"));
-        temporaryCategories.add(new Category(UUID.randomUUID(), "my third category"));
-    }
-
-    // GET /v1/categories
     @GetMapping
-    public List<Category> retrieveAllCategories() {
-        return temporaryCategories;
+    public List<Category> getAllCategories() {
+        return this.service.getAll();
     }
-    // GET /v1/categories/{id}
-    @GetMapping("/{id}")
-    public Category retrieveCategoryById(@PathVariable UUID id) {
-        return temporaryCategories.stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+
+
+    @GetMapping("{id}")
+    public Category getCategoryById(@PathVariable UUID id) {
+        return this.service.getById(id);
     }
-// DELETE /v1/categories/{id}
-@DeleteMapping("/{id}")
-public boolean deleteCategory(@PathVariable UUID id) {
-    return temporaryCategories.removeIf(c -> c.getId().equals(id));
-}
+
+    @PostMapping
+    public Category createCategory(@RequestBody String name) {
+        return this.service.create(name);
+    }
+
+    @PutMapping("{id}")
+    public Category updateCategory(@PathVariable UUID id, @RequestBody String name) {
+        return service.update(id, name);
+    }
+
+    @DeleteMapping ("{id}")
+    public boolean deleteCategoryByID(@PathVariable UUID id) {
+        return this.service.deleteById(id);
+    }
 
 /*Result
   {
@@ -84,6 +58,8 @@ public boolean deleteCategory(@PathVariable UUID id) {
     "id": "b0af3b2e-935e-4de6-ae06-7b3929e53aa6",
     "name": "my third category"
     */
+
+
 
 
 }

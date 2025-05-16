@@ -13,4 +13,5 @@ public interface CategoryService {
     boolean deleteById(UUID id); // Supprimer une catégorie par ID
 
 
+    Category update(UUID id, String name);
 }

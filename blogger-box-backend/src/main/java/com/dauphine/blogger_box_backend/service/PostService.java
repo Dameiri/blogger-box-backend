@@ -17,15 +17,13 @@ public interface PostService {
     Post getById(UUID id);
 
     //créer un nouveau post
-    Post create(String title, String content);
+    Post create(String title, String content, UUID categoryId);
 
     //mettre à jour un post
     Post update(UUID id, String title, String content);
 
     //supprimer un post par son ID
     boolean deleteById(UUID id);
-
-    boolean delete(UUID id);
 
     Post patchDescription(UUID id, String description);
 }

@@ -2,25 +2,50 @@ package com.dauphine.blogger_box_backend.service;
 
 import com.dauphine.blogger_box_backend.model.Category;
 import com.dauphine.blogger_box_backend.model.Post;
-import com.dauphine.blogger_box_backend.service.CategoryService;
-import com.dauphine.blogger_box_backend.service.PostService;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class PostServiceImpl implements PostService {
-
+    private final List<Category> temporaryCategories;
     private final List<Post> temporaryPosts;
-    private final CategoryService categoryService; // Pour vérifier si la catégorie existe
+    private final CategoryService categoryService;
+
 
     public PostServiceImpl(CategoryService categoryService) {
+            this.temporaryPosts = new ArrayList<>();
+        this.temporaryCategories = new ArrayList<>();
+            this.temporaryPosts.add(new Post(
+                    UUID.randomUUID(),
+                    "First Post",
+                    "Content of First Post",
+                    LocalDate.now() ,
+                    new Category(UUID.randomUUID(),"category premium")
+            ));
+
+            this.temporaryPosts.add(new Post(
+                    UUID.randomUUID(),
+                    "Second Post",
+                    "Content of Second Post",
+                    LocalDate.now() ,
+                    new Category(UUID.randomUUID(),"category premium")
+            ));
+
+            this.temporaryPosts.add(new Post(
+                    UUID.randomUUID(),
+                    "Third Post",
+                    "Content of Third Post",
+                    LocalDate.now() ,
+                    new Category(UUID.randomUUID(),"category premium")
+            ));
         this.categoryService = categoryService;
-        this.temporaryPosts = new ArrayList<>();
     }
+
 
     @Override
     public List<Post> getAllByCategoryId(UUID categoryId) {
@@ -45,46 +70,36 @@ public class PostServiceImpl implements PostService {
                 .findFirst()
                 .orElse(null);
     }
-
+/*
     @Override
-    public Post create(String title, String content) {
-     /*   Category category = categoryService.getById(categoryId);
+    public Post create(String title, String content, UUID categoryId) {
+        // --------- C’est ici que tu tapes temporaryCategories. pour accéder à la liste ---------
+        Category category = temporaryCategories.stream()
+                .filter(c -> c.getId().equals(categoryId))
+                .findFirst()
+                .orElse(null);
 
-        if (category == null) {
-            return null;
-        }
-
-        Post post = new Post();
-        post.setId(UUID.randomUUID());
-        post.setTitle(title);
-        post.setContent(content);
-        post.setDate(new Timestamp(System.currentTimeMillis()));
-        post.setCategory(category);
-
+        Post post = new Post(
+                UUID.randomUUID(),
+                title,
+                content,
+                LocalDate.now(),
+                category
+        );
         temporaryPosts.add(post);
-
-      */
-        return null;
+        return post;
     }
+*/
 
 
-
-
-    public Post update(UUID id, String title, String content) {
-        // Chercher le post dans la liste en mémoire
-        Post post = temporaryPosts.stream()
-                .filter(p -> p.getId().equals(id))  // Chercher le post avec le bon ID
-                .findFirst()  // Prendre le premier post trouvé
-                .orElse(null);  // Si aucun post n'est trouvé, retourner null
-
+@Override
+    public Post update(UUID id, String title, String content){
+        Post post = this.getById(id);
         if (post != null) {
-            // Si le post existe, mettre à jour le titre et le contenu
             post.setTitle(title);
             post.setContent(content);
-            return post;  // Retourner le post mis à jour
         }
-        // Si le post n'existe pas, retourner null
-        return null;
+        return post;
     }
 
     @Override
@@ -92,13 +107,16 @@ public class PostServiceImpl implements PostService {
         return temporaryPosts.removeIf(post -> post.getId().equals(id));
     }
 
-    @Override
-    public boolean delete(UUID id) {
-        return false;
-    }
+
 
     @Override
     public Post patchDescription(UUID id, String description) {
         return  null;
+    }
+    @Override
+    public Post create(String title, String content,UUID categoryId) {
+        Post post = new Post(UUID.randomUUID(), title, content, LocalDate.now(),categoryService.getById(categoryId));
+        this.temporaryPosts.add(post);
+        return post;
     }
 }

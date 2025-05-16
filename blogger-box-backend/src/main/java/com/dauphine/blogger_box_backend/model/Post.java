@@ -3,6 +3,7 @@ package com.dauphine.blogger_box_backend.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import java.sql.Timestamp;
@@ -12,10 +13,10 @@ public class Post {
     private UUID id;
     private String title;
     private String content;
-    private Timestamp createddate;
+    private LocalDate createddate;
     private Category category;
 
-    public Post(UUID id, String title, String content, Timestamp createdDate, Category category) {
+    public Post(UUID id, String title, String content, LocalDate createdDate, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -23,6 +24,9 @@ public class Post {
         this.category = category;
     }
 
+    public LocalDate getCreateddate() {
+        return createddate;
+    }
 
     public UUID getId() {
         return id;
@@ -48,16 +52,20 @@ public class Post {
         this.content = content;
     }
 
-    public Timestamp getDate() {
+    public LocalDate getDate() {
         return createddate;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(LocalDate date) {
         this.createddate = date;
     }
 
     public Category getCategory() {
         return category;
+    }
+
+    public void setCreateddate(LocalDate createddate) {
+        this.createddate = createddate;
     }
 
     public void setCategory(Category category) {
