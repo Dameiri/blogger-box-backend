@@ -1,8 +1,10 @@
 package com.dauphine.blogger_box_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,12 +18,13 @@ public class Post {
     @Column(name="content", nullable = false, columnDefinition = "TEXT")
     private String content;
     @Column(name="created_date", nullable = false)
-    private LocalDate createdDate;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime createdDate;
     @ManyToOne
     @JoinColumn(name = "category_id")
     Category category;
 public Post(){}
-    public Post(UUID id, String title, String content, LocalDate createdDate, Category category) {
+    public Post(UUID id, String title, String content, LocalDateTime createdDate, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -29,7 +32,7 @@ public Post(){}
         this.category = category;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
@@ -57,11 +60,11 @@ public Post(){}
         this.content = content;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return createdDate;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.createdDate = date;
     }
 
@@ -69,7 +72,7 @@ public Post(){}
         return category;
     }
 
-    public void setCreatedDate(LocalDate createddate) {
+    public void setCreatedDate(LocalDateTime createddate) {
         this.createdDate = createddate;
     }
 

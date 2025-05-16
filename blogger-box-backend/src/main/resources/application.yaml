@@ -1,7 +1,9 @@
 spring:
   application:
     name: blogger-box-backend
-
+    jackson:
+      serialization:
+        write-dates-as-timestamps: false
   datasource:
     url: jdbc:postgresql://db.cvltyrqhmqijupkvkqfd.supabase.co:5432/postgres
     username: postgres
@@ -15,3 +17,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+
+

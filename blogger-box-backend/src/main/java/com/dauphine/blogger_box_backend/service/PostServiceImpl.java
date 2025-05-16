@@ -8,14 +8,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class PostServiceImpl implements PostService {
+    /*
     private final List<Category> temporaryCategories;
-    private final List<Post> temporaryPosts;
+    private final List<Post> temporaryPosts;*/
     private final CategoryService categoryService;
     private final PostRepository postRepository;
 
@@ -23,7 +25,8 @@ public class PostServiceImpl implements PostService {
     public PostServiceImpl(PostRepository postRepository, CategoryService categoryService) {
         this.postRepository = postRepository;
         this.categoryService = categoryService;
-            this.temporaryPosts = new ArrayList<>();
+        /*
+        this.temporaryPosts = new ArrayList<>();
         this.temporaryCategories = new ArrayList<>();
             this.temporaryPosts.add(new Post(
                     UUID.randomUUID(),
@@ -47,7 +50,7 @@ public class PostServiceImpl implements PostService {
                     "Content of Third Post",
                     LocalDate.now() ,
                     new Category(UUID.randomUUID(),"category premium")
-            ));
+            ));*/
 
     }
 
@@ -61,7 +64,6 @@ public class PostServiceImpl implements PostService {
                 filteredPosts.add(post);
             }
         }
-
 
         return filteredPosts;*/
         return this.postRepository.findAllByCategory_Id(categoryId);
@@ -134,7 +136,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post create(String title, String content,UUID categoryId) {
-        Post post = new Post(UUID.randomUUID(), title, content, LocalDate.now(),categoryService.getById(categoryId));
+        Post post = new Post(UUID.randomUUID(), title, content, LocalDateTime.now(),categoryService.getById(categoryId));
 
         return this.postRepository.save(post);
     }
