@@ -15,35 +15,44 @@ public class CategoryServiceImpl implements CategoryService {
     // Initialiser des catégories fictives
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+        /*
         temporaryCategories.add(new Category(UUID.randomUUID(), "My first category"));
         temporaryCategories.add(new Category(UUID.randomUUID(), "My second category"));
         temporaryCategories.add(new Category(UUID.randomUUID(), "My third category"));
+
+         */
     }
 
     @Override
     public List<Category> getAll() {
         // Retourner toutes les catégories
-        return temporaryCategories;
+        return this.categoryRepository.findAll();
     }
 
     @Override
     public Category getById(UUID id) {
         // Chercher une catégorie par son ID
+        /*
         return temporaryCategories.stream()
                 .filter(category -> category.getId().equals(id))
                 .findFirst()
                 .orElse(null); // Retourne null si la catégorie n'est pas trouvée
+                */
+        return this.categoryRepository.findById(id).orElse(null);
+
     }
 
     @Override
     public Category create(String name) {
         // Créer une nouvelle catégorie
+
         Category category = new Category(UUID.randomUUID(), name);
-        temporaryCategories.add(category);
-        return category;
+      /*  temporaryCategories.add(category);*/
+        return this.categoryRepository.save(category);
+
     }
 
-
+/*
     @Override
     public Category updateName(UUID id, String newName) {
         // Recherche la catégorie dans la liste en filtrant par ID
@@ -59,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         return category; // Retourne la catégorie mise à jour (ou null si non trouvée)
     }
-
+*/
     @Override
     public boolean deleteById(UUID id) {
         //supprimer une catégorie par son ID
@@ -74,12 +83,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category update(UUID id, String name) {
         Category category = this.getById(id);
+        if (category == null) {
+            return null;
+        }
         if (category != null) {
             category.setName(name);
         }
-        return category;
+        return this.categoryRepository.save(category);
+    };
 
     }
 
 
-}
