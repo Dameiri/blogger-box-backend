@@ -1,21 +1,28 @@
 package com.dauphine.blogger_box_backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 import java.sql.Timestamp;
 import java.util.UUID;
-
+@Entity
+@Table(name ="post")
 public class Post {
+    @Id
+    @Column(name="id")
     private UUID id;
+    @Column(name="  title", nullable = false, length = 250)
     private String title;
+    @Column(name="content", nullable = false, columnDefinition = "TEXT")
     private String content;
+    @Column(name="created_date", nullable = false)
     private LocalDate createddate;
-    private Category category;
-
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    Category category;
+public Post(){}
     public Post(UUID id, String title, String content, LocalDate createdDate, Category category) {
         this.id = id;
         this.title = title;

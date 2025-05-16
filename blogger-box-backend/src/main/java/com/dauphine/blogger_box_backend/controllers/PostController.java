@@ -71,14 +71,9 @@ public class PostController {
             @ApiResponse(code = 404, message = "Post not found")
     })*/
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable UUID id) {
+    public void delete(@PathVariable UUID id) {
         // Implémentation de la persistance (supprimer le post de la liste ou base de données)
-        boolean isDeleted = postService.deleteById(id);
-        if (isDeleted) {
-            return "Deleted post '%s'".formatted(id);
-        } else {
-            return "Post with ID '%s' not found".formatted(id);
-        }
+        postService.deleteById(id);
     }
     /*simulation avant de se connecter a la base de donnees*/
 

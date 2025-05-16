@@ -2,7 +2,9 @@ package com.dauphine.blogger_box_backend.service;
 
 import com.dauphine.blogger_box_backend.model.Category;
 import com.dauphine.blogger_box_backend.model.Post;
+import com.dauphine.blogger_box_backend.repository.PostRepository;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,9 +17,12 @@ public class PostServiceImpl implements PostService {
     private final List<Category> temporaryCategories;
     private final List<Post> temporaryPosts;
     private final CategoryService categoryService;
+    private final PostRepository postRepository;
 
 
-    public PostServiceImpl(CategoryService categoryService) {
+    public PostServiceImpl(PostRepository postRepository, CategoryService categoryService) {
+        this.postRepository = postRepository;
+        this.categoryService = categoryService;
             this.temporaryPosts = new ArrayList<>();
         this.temporaryCategories = new ArrayList<>();
             this.temporaryPosts.add(new Post(
@@ -43,32 +48,41 @@ public class PostServiceImpl implements PostService {
                     LocalDate.now() ,
                     new Category(UUID.randomUUID(),"category premium")
             ));
-        this.categoryService = categoryService;
+
     }
 
 
     @Override
     public List<Post> getAllByCategoryId(UUID categoryId) {
+        /*
         List<Post> filteredPosts = new ArrayList<>();
         for (Post post : temporaryPosts) {
             if (post.getCategory() != null && post.getCategory().getId().equals(categoryId)) {
                 filteredPosts.add(post);
             }
         }
-        return filteredPosts;
+
+
+        return filteredPosts;*/
+        return this.postRepository.findAllByCategory_Id(categoryId);
     }
 
     @Override
     public List<Post> getAll() {
-        return temporaryPosts;
+        //les ordonner
+        return this.postRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
     }
 
     @Override
     public Post getById(UUID id) {
+        /*
         return temporaryPosts.stream()
                 .filter(post -> post.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+
+         */
+        return this.postRepository.findById(id).orElse(null);
     }
 /*
     @Override
@@ -94,29 +108,34 @@ public class PostServiceImpl implements PostService {
 
 @Override
     public Post update(UUID id, String title, String content){
+
         Post post = this.getById(id);
+    if(post == null) {
+        return null;}
         if (post != null) {
             post.setTitle(title);
             post.setContent(content);
         }
-        return post;
+        return this.postRepository.save(post);
+
     }
 
-    @Override
-    public boolean deleteById(UUID id) {
-        return temporaryPosts.removeIf(post -> post.getId().equals(id));
-    }
+
 
 
 
     @Override
-    public Post patchDescription(UUID id, String description) {
-        return  null;
+    public void deleteById(UUID id) {
+          this.postRepository.deleteById(id);
+
     }
+
+
+
     @Override
     public Post create(String title, String content,UUID categoryId) {
         Post post = new Post(UUID.randomUUID(), title, content, LocalDate.now(),categoryService.getById(categoryId));
-        this.temporaryPosts.add(post);
-        return post;
+
+        return this.postRepository.save(post);
     }
 }

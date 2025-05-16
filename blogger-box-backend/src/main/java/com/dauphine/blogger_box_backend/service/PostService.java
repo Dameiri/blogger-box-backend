@@ -1,6 +1,7 @@
 package com.dauphine.blogger_box_backend.service;
 
 import com.dauphine.blogger_box_backend.model.Post;
+import com.dauphine.blogger_box_backend.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,6 @@ public interface PostService {
     Post update(UUID id, String title, String content);
 
     //supprimer un post par son ID
-    boolean deleteById(UUID id);
+    void deleteById(UUID id);
 
-    Post patchDescription(UUID id, String description);
 }

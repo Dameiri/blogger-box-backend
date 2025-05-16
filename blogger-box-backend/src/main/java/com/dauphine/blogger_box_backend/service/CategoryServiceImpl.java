@@ -1,6 +1,7 @@
 package com.dauphine.blogger_box_backend.service;
 
 import com.dauphine.blogger_box_backend.model.Category;
+import com.dauphine.blogger_box_backend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,9 +11,10 @@ import java.util.UUID;
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private final List<Category> temporaryCategories = new ArrayList<>();
-
+    private final CategoryRepository categoryRepository;
     // Initialiser des catégories fictives
-    public CategoryServiceImpl() {
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
         temporaryCategories.add(new Category(UUID.randomUUID(), "My first category"));
         temporaryCategories.add(new Category(UUID.randomUUID(), "My second category"));
         temporaryCategories.add(new Category(UUID.randomUUID(), "My third category"));
