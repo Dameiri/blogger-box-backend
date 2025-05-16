@@ -43,7 +43,7 @@ public class HelloWorldController {
     ) {
         return "Hello " + name;
     }
-/*
+
     @PostMapping("/elements")
     public String create(@RequestBody ElementRequest body) {
         // INSERT INTO ... (title, description) VALUES (${title}, ${description});
@@ -53,13 +53,13 @@ public class HelloWorldController {
 
 
 
-    @PutMapping("/elements/{id}")/*pour mettre à jour
+    @PutMapping("/elements/{id}")/*pour mettre à jour*/
     public String update(@PathVariable Integer id, @RequestBody ElementRequest body) {
         // UPDATE ... SET title = ${title}, description = ${description} WHERE id = ${id};
         return "Update element '%s' with title '%s' and description '%s'"
                 .formatted(id, body.getTitle(), body.getDescription());
     }
-    @PatchMapping("/elements/{id}/description")/*PATCH request method is used to make a partial changes in an existing resource
+    @PatchMapping("/elements/{id}/description")/*PATCH request method is used to make a partial changes in an existing resource*/
     public String patch(@PathVariable Integer id, @RequestBody String description) {
         // UPDATE ... SET description = ${description} WHERE id = ${id};
         return "Patch element '%s' with description '%s'".formatted(id, description);
@@ -70,7 +70,7 @@ public class HelloWorldController {
         return "Delete element '%s'".formatted(id);
     }
 
- */
+
 
 
 

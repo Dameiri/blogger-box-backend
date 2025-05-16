@@ -12,8 +12,16 @@ public class Post {
     private UUID id;
     private String title;
     private String content;
-    private Timestamp date;
+    private Timestamp createddate;
     private Category category;
+
+    public Post(UUID id, String title, String content, Timestamp createdDate, Category category) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.createddate = createdDate;
+        this.category = category;
+    }
 
 
     public UUID getId() {
@@ -41,11 +49,11 @@ public class Post {
     }
 
     public Timestamp getDate() {
-        return date;
+        return createddate;
     }
 
     public void setDate(Timestamp date) {
-        this.date = date;
+        this.createddate = date;
     }
 
     public Category getCategory() {

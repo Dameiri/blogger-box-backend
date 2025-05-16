@@ -56,6 +56,7 @@
 			<version>3.0.0</version>  <!-- Assure-toi de prendre la bonne version selon ton Spring Boot -->
 		</dependency>
 
+
 		<!-- Pour la compatibilité avec Spring Boot et Swagger -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

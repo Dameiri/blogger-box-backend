@@ -1,5 +1,6 @@
 package com.dauphine.blogger_box_backend.controllers;
 
+import com.dauphine.blogger_box_backend.model.Category;
 import com.dauphine.blogger_box_backend.model.ElementRequest;
 import com.dauphine.blogger_box_backend.model.Post;
 import com.dauphine.blogger_box_backend.service.PostService;
@@ -10,7 +11,11 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Api(tags = "Posts")
 @RestController
@@ -19,7 +24,6 @@ public class PostController {
 
     @Autowired
     private PostService postService;
-/*
     @ApiOperation(value = "Create a new post", notes = "This endpoint creates a new post with the specified title and description.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Post created successfully"),
@@ -80,7 +84,9 @@ public class PostController {
             return "Post with ID '%s' not found".formatted(id);
         }
     }
+    /*simulation avant de se connecter a la base de donnees*/
+
+
 }
 
- */
-}
+
