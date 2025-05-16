@@ -107,7 +107,6 @@ public class PostServiceImpl implements PostService {
     }
 */
 
-
 @Override
     public Post update(UUID id, String title, String content){
 
@@ -123,9 +122,6 @@ public class PostServiceImpl implements PostService {
     }
 
 
-
-
-
     @Override
     public void deleteById(UUID id) {
           this.postRepository.deleteById(id);
@@ -139,5 +135,10 @@ public class PostServiceImpl implements PostService {
         Post post = new Post(UUID.randomUUID(), title, content, LocalDateTime.now(),categoryService.getById(categoryId));
 
         return this.postRepository.save(post);
+    }
+    @Override
+    public List<Post> searchByValue(String value) {
+        return postRepository
+                .findAllByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(value, value);
     }
 }

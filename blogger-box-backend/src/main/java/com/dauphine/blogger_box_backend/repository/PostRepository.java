@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findAllByCategory_Id(UUID categoryId);
+    List<Post> findAllByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String titleValue, String contentValue);
 }

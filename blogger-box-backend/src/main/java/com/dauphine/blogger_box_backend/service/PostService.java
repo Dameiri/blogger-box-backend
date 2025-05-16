@@ -25,5 +25,5 @@ public interface PostService {
 
     //supprimer un post par son ID
     void deleteById(UUID id);
-
+    List<Post> searchByValue(String value);
 }

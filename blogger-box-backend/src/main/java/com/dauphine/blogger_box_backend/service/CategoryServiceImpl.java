@@ -28,7 +28,10 @@ public class CategoryServiceImpl implements CategoryService {
         // Retourner toutes les catégories
         return this.categoryRepository.findAll();
     }
-
+    @Override
+    public List<Category> getAllByName(String name) {
+        return categoryRepository.findAllLikeName(name);
+    }
     @Override
     public Category getById(UUID id) {
         // Chercher une catégorie par son ID
