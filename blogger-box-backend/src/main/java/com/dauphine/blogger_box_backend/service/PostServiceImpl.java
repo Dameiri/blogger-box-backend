@@ -1,5 +1,7 @@
 package com.dauphine.blogger_box_backend.service;
 
+import com.dauphine.blogger_box_backend.dto.CreationCategoryRequest;
+import com.dauphine.blogger_box_backend.dto.CreationPostRequest;
 import com.dauphine.blogger_box_backend.model.Category;
 import com.dauphine.blogger_box_backend.model.Post;
 import com.dauphine.blogger_box_backend.repository.PostRepository;
@@ -130,12 +132,24 @@ public class PostServiceImpl implements PostService {
 
 
 
-    @Override
-    public Post create(String title, String content,UUID categoryId) {
+
+    private Post create(String title, String content,UUID categoryId) {
         Post post = new Post(UUID.randomUUID(), title, content, LocalDateTime.now(),categoryService.getById(categoryId));
 
         return this.postRepository.save(post);
     }
+
+
+@Override
+public Post create(CreationPostRequest req) {
+    // On peut déléguer à l’ancienne méthode privée ou inline
+    return create(
+            req.title(),
+            req.content(),
+            req.categoryId()
+
+    );
+}
     @Override
     public List<Post> searchByValue(String value) {
         return postRepository

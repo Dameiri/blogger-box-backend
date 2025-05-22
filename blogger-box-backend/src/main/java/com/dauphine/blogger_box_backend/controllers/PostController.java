@@ -1,5 +1,6 @@
 package com.dauphine.blogger_box_backend.controllers;
 
+import com.dauphine.blogger_box_backend.dto.CreationPostRequest;
 import com.dauphine.blogger_box_backend.model.Post;
 import com.dauphine.blogger_box_backend.service.PostService;
 import io.swagger.annotations.Api;
@@ -61,6 +62,7 @@ public class PostController {
             @ApiResponse(code = 201, message = "Post created successfully"),
             @ApiResponse(code = 400, message = "Invalid input")
     })
+    /*
     @PostMapping
     public Post createPost(
             @RequestParam String title,
@@ -68,6 +70,10 @@ public class PostController {
             @RequestParam UUID categoryId
     ) {
         return postService.create(title, content, categoryId);
+    }*/
+    @PostMapping
+    public Post createPost(@RequestBody CreationPostRequest req) {
+        return postService.create(req);
     }
 
     @ApiOperation(value = "Update an existing post", notes = "Updates title and content of the post with the given ID.")
